@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AOT | Ultimate Experience</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    
+    <style>
+        :root {
+            --accent: #ffffff;
+            --bg-dark: #000000;
+            --card-bg: #0a0a0a;
+            --glow: rgba(255, 255, 255, 0.15);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg-dark); color: white; overflow-x: hidden; }
+
+        /* 1. NAV (Menular bilan) */
+        .navbar { 
+            width: 100%; padding: 20px 0; position: fixed; top: 0; z-index: 1000; 
+            backdrop-filter: blur(10px); border-bottom: 1px solid #111;
+        }
+        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 30px; }
+        .nav-logo { font-size: 22px; font-weight: 900; letter-spacing: 3px; color: white; text-decoration: none; }
+        .nav-links { list-style: none; display: flex; gap: 30px; }
+        .nav-links a { color: #888; text-decoration: none; font-size: 14px; font-weight: 500; transition: 0.3s; }
+        .nav-links a:hover { color: white; }
+
+        /* 2. HERO */
+        .hero { 
+            width: 100%; height: 100vh; 
+            background: url('https://i.pinimg.com/736x/33/86/69/338669544b348d3cf7c878fbd65243d3.jpg') center/cover no-repeat; 
+            display: flex; align-items: center; position: relative;
+        }
+        .hero-overlay { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,0,0,0.9), transparent); }
+        .hero-content { position: relative; z-index: 10; max-width: 1200px; margin: 0 auto; width: 100%; padding: 0 30px; }
+        .hero-content h1 { font-size: 70px; font-weight: 900; line-height: 1; margin-bottom: 20px; }
+        .hero-content p { color: #888; max-width: 500px; margin-bottom: 30px; font-size: 18px; }
+
+        /* 3. CARDS (8 ta, Box-shadow bilan) */
+        .section-title { text-align: center; margin: 100px 0 50px; font-size: 35px; letter-spacing: 5px; font-weight: 900; }
+        .grid { 
+            max-width: 1200px; margin: 0 auto; display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 30px; padding: 0 30px; 
+        }
+        .card { 
+            background: var(--card-bg); border-radius: 35px; padding: 25px; text-align: center; 
+            transition: 0.8s ease; border: 1px solid #111;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* Asosiy shadow */
+        }
+        .card:hover { 
+            transform: translateY(-1px); 
+            border-color: #110e0e;
+            box-shadow: 0 0 20px rgb(255, 0, 0); /* Neon effekt */
+        }
+        .card-img { width: 100%; height: 300px; border-radius: 25px; object-fit: cover; margin-bottom: 15px; }
+        .card-tag { display: inline-block; padding: 5px 15px; border-radius: 12px; background: #111; color: #555; font-size: 12px; margin-bottom: 10px; border: 1px solid #222; }
+
+    /* Reyting uchun maxsus CSS */
+    .rating-section {
+        padding: 80px 0;
+        background: #000;
+    }
+
+    .rating-grid-compact {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        /* 4 ta ustunli grid */
+        grid-template-columns: repeat(4, 1fr);
+        gap: 40px 30px;
+        padding: 0 30px;
+    }
+
+    .stat-item {
+        background: rgba(255, 255, 255, 0.03);
+        padding: 20px;
+        border-radius: 20px;
+        border: 1px solid #111;
+        transition: 0.3s;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+
+    .stat-item:hover {
+        background: rgba(255, 255, 255, 0.07);
+        border-color: #444;
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(255, 255, 255, 0.05);
+    }
+
+    .stat-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+    }
+
+    .stat-info .name {
+        font-size: 15px;
+        font-weight: 600;
+        color: #eee;
+    }
+
+    .stat-info .percent {
+        font-size: 14px;
+        color: #fff;
+        font-weight: 900;
+        text-shadow: 0 0 10px rgba(255,255,255,0.5);
+    }
+
+    .progress-bg {
+        width: 100%;
+        height: 4px;
+        background: #1a1a1a;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #333, #fff);
+        box-shadow: 0 0 10px #fff;
+        border-radius: 10px;
+    }
+
+    /* Mobil qurilmalar uchun (2 ustunli bo'ladi) */
+    @media (max-width: 992px) {
+        .rating-grid-compact { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* Telefonlar uchun (1 ustunli) */
+    @media (max-width: 500px) {
+        .rating-grid-compact { grid-template-columns: 1fr; }
+    }
+
+        /* 5. FOOTER (Icontalar bilan) */
+        footer { padding: 80px 0; text-align: center; border-top: 1px solid #111; }
+        .social-icons { display: flex; justify-content: center; gap: 30px; margin-top: 30px; }
+        .social-icons a { 
+            color: #555; font-size: 24px; transition: 0.3s; 
+            width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;
+            border-radius: 50%; border: 1px solid #111;
+        }
+        .social-icons a:hover { color: white; border-color: white; box-shadow: 0 0 20px rgba(255,255,255,0.2); }
+
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">ACKERMAN</a>
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Characters</a></li>
+                <li><a href="#">Stats</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content" data-aos="fade-right">
+            <h1>LEVI <br> ACKERMAN</h1>
+            <p>Insoniyatning eng kuchli quroli va Scouting Legion timsoli. Uning sovuqqonligi titanlar uchun oxirgi nuqtadir.</p>
+            <button class="btn" style="padding: 15px 40px; border-radius: 50px; background: white; color: black; border: none; font-weight: bold; cursor: pointer;">EXPLORE</button>
+        </div>
+    </header>
+
+    <h2 class="section-title" data-aos="fade-up">LEGENDS</h2>
+    <div class="grid">
+        <div class="card" data-aos="zoom-in">
+            <img src="https://i.pinimg.com/736x/2f/53/3c/2f533c5bdf61c6b28a2f842bf861e238.jpg" class="card-img">
+            <h3>Eren Yeager</h3>
+          
+        </div>
+        <div class="card" data-aos="zoom-in" data-aos-delay="100">
+            <img src="https://i.pinimg.com/736x/10/df/e3/10dfe34514273608a93284ab85e6cad9.jpg" class="card-img">
+            <h3>Mikasa Ackerman</h3>
+            
+        </div>
+        <div class="card" data-aos="zoom-in" data-aos-delay="200">
+            <img src="https://i.pinimg.com/736x/4b/da/2e/4bda2e35603cae6ee6e14a262920817c.jpg" class="card-img">
+            <h3>Levi Ackerman</h3>
+           
+        </div>
+        <div class="card" data-aos="zoom-in" data-aos-delay="300">
+            <img src="https://i.pinimg.com/736x/18/3c/a9/183ca97e7a9b223bddc1dbe98704bb68.jpg" class="card-img">
+            <h3>Armin Arlert</h3>
+         
+        </div>
+        <div class="card" data-aos="zoom-in">
+            <img src="https://i.pinimg.com/736x/92/b0/42/92b04218391c16f7464cd23d346a9309.jpg" class="card-img">
+            <h3>Erwin Smith</h3>
+          
+        </div>
+        <div class="card" data-aos="zoom-in" data-aos-delay="100">
+            <img src="https://i.pinimg.com/736x/42/e8/f0/42e8f03b8636af8f135b81b6f88dd93c.jpg" class="card-img">
+            <h3>Historia Reiss</h3>
+            
+        </div>
+        <div class="card" data-aos="zoom-in" data-aos-delay="200">
+            <img src="https://i.pinimg.com/736x/bc/8e/38/bc8e3820337e88d0183c11f6eda9e0fd.jpg" class="card-img">
+            <h3>Hange Zoë</h3>
+       
+        </div>
+        <div class="card" data-aos="zoom-in" data-aos-delay="300">
+            <img src="https://i.pinimg.com/736x/0a/03/77/0a03775d341e960865ac1da96f49e75d.jpg" class="card-img">
+            <h3>Sasha Braus</h3>
+           
+        </div>
+    </div>
+<section class="rating-section">
+    <h2 class="section-title" data-aos="fade-up">BATTLE STATS</h2>
+    <div class="rating-grid-compact">
+        
+        <div class="stat-item" data-aos="flip-left">
+            <div class="stat-info">
+                <span class="name">Levi Ackerman</span>
+                <span class="percent">100%</span>
+            </div>
+            <div class="progress-bg"><div class="progress-fill" style="width: 100%;"></div></div>
+        </div>
+
+        <div class="stat-item" data-aos="flip-left" data-aos-delay="100">
+            <div class="stat-info">
+                <span class="name">Eren Yeager</span>
+                <span class="percent">98%</span>
+            </div>
+            <div class="progress-bg"><div class="progress-fill" style="width: 98%;"></div></div>
+        </div>
+
+        <div class="stat-item" data-aos="flip-left" data-aos-delay="200">
+            <div class="stat-info">
+                <span class="name">Mikasa Ackerman</span>
+                <span class="percent">96%</span>
+            </div>
+            <div class="progress-bg"><div class="progress-fill" style="width: 96%;"></div></div>
+        </div>
+
+        <div class="stat-item" data-aos="flip-left" data-aos-delay="300">
+            <div class="stat-info">
+                <span class="name">Erwin Smith</span>
+                <span class="percent">95%</span>
+            </div>
+            <div class="progress-bg"><div class="progress-fill" style="width: 95%;"></div></div>
+        </div>
+
+        <div class="stat-item" data-aos="flip-left" data-aos-delay="400">
+            <div class="stat-info">
+                <span class="name">Armin Arlert</span>
+                <span class="percent">92%</span>
+            </div>
+            <div class="progress-bg"><div class="progress-fill" style="width: 92%;"></div></div>
+        </div>
+
+        <div class="stat-item" data-aos="flip-left" data-aos-delay="500">
+            <div class="stat-info">
+                <span class="name">Historia Reiss</span>
+                <span class="percent">90%</span>
+            </div>
+            <div class="progress-bg"><div class="progress-fill" style="width: 90%;"></div></div>
+        </div>
+
+        <div class="stat-item" data-aos="flip-left" data-aos-delay="600">
+            <div class="stat-info">
+                <span class="name">Hange Zoë</span>
+                <span class="percent">88%</span>
+            </div>
+            <div class="progress-bg"><div class="progress-fill" style="width: 88%;"></div></div>
+        </div>
+
+        <div class="stat-item" data-aos="flip-left" data-aos-delay="700">
+            <div class="stat-info">
+                <span class="name">Sasha Braus</span>
+                <span class="percent">85%</span>
+            </div>
+            <div class="progress-bg"><div class="progress-fill" style="width: 85%;"></div></div>
+        </div>
+
+    </div>
+</section>
+
+    <footer>
+        <h2 style="letter-spacing: 10px; color: rgba(255,255,255,0.1)">SHINGEKI</h2>
+        <div class="social-icons">
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-telegram"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+        </div>
+        <p style="margin-top: 30px; font-size: 12px; color: #222;">© 2026 ACKERMAN DESIGN. ALL RIGHTS RESERVED.</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script> AOS.init({ duration: 1000 }); </script>
+</body>
+</html>
